@@ -11,5 +11,5 @@ export const ENV = {
 };
 
 
-console.log(ENV.DATABASE_URL)
+// console.log(ENV.DATABASE_URL)
 
