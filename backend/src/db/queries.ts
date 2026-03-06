@@ -9,23 +9,39 @@ export const createUser = async (data:NewUser)=>{
   return user;
 };
 
-export const getUserbyId = async (id:string) =>{
+export const getUserById = async (id:string) =>{
   return db.query.users.findFirst({where: eq(users.id,id)});
 };
 
 export const updateUser = async(id:string,data:Partial<NewUser>) =>{
   // partial :  Partial มีไว้เพื่อบอก TypeScript ว่า "ข้อมูลที่ส่งมาใน Object นี้ จะมีแค่บางส่วน (Partial) ของ User ก็ได้นะ ไม่ต้องมาครบทุกฟิลด์"
+ const existingUser = await getUserById(id);
+  if (!existingUser) {
+    throw new Error(`User with id ${id} not found`);
+  }
 
   const [user] = await db.update(users).set(data).where(eq(users.id,id)).returning();
   return user;  
 };
 
-export const upsertUser = async(data:NewUser) =>{
-  // upsert ถ้ามีตัวตนอยู่แล้วให้ update ถ้ายังไม่มีให้ create
- const existingUser =  await getUserbyId(data.id)
- if(existingUser) return updateUser(data.id,data)
-  return createUser(data)
-}
+export const upsertUser = async (data: NewUser) => {
+  
+  // const existingUser = await getUserById(data.id);
+  // if (existingUser) return updateUser(data.id, data);
+
+  // return createUser(data);
+
+  // ไวกว่า (ไม่ต้องหาว่ามี user มั้ย 2 req )
+  const [user] = await db
+    .insert(users)
+    .values(data)
+    .onConflictDoUpdate({
+      target: users.id,
+      set: data,
+    })
+    .returning();
+  return user;
+};
 
 
 // product queries
@@ -64,12 +80,22 @@ export const getProductsByUserId = async(userId:string)=>{
 };
 
 
-export const updateProduct = async(id:string,data:Partial<NewProduct>) =>{
-   const [product] = await db.update(products).set(data).where(eq(products.id,id)).returning();
-  return product;  
+export const updateProduct = async (id: string, data: Partial<NewProduct>) => {
+  const existingProduct = await getProductById(id);
+  if (!existingProduct) {
+    throw new Error(`Product with id ${id} not found`);
+  }
+
+  const [product] = await db.update(products).set(data).where(eq(products.id, id)).returning();
+  return product;
 };
 
 export const deleteProduct = async(id:string) =>{
+  const existingProduct = await getProductById(id);
+  if (!existingProduct) {
+    throw new Error(`Product with id ${id} not found`);
+  }
+  
   const [product] = await db.delete(products).where(eq(products.id,id)).returning();
   return product;
 }
