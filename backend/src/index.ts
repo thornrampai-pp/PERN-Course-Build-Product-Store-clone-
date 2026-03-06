@@ -2,9 +2,11 @@
 import express from 'express';
 import cors from 'cors'
 import { ENV } from "./config/env"; 
-import { clerkMiddleware } from '@clerk/express'
+import { clerkMiddleware, User } from '@clerk/express'
 
 const app = express()
+
+
 // middleware request coolies and header for jwt (auth obj wil be attached to the req)
 app.use(cors({origin: ENV.FRONTEND_URL}));
 app.use(clerkMiddleware());
