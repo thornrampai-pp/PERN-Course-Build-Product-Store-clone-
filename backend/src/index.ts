@@ -10,7 +10,7 @@ const app = express()
 
 
 // middleware request coolies and header for jwt (auth obj wil be attached to the req)
-app.use(cors({origin: ENV.FRONTEND_URL}));
+app.use(cors({ origin: ENV.FRONTEND_URL, credentials: true })); // credentials: allows the fronted send cookies to the backend
 app.use(clerkMiddleware());
 app.use(express.json());
 app.use(express.urlencoded({extended:true})); 
