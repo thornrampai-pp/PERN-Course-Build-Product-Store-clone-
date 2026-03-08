@@ -4,9 +4,9 @@ import { getAuth } from "@clerk/express";
 
 export const getAllProduct = async (req: Request, res: Response) => {
   try {
-    const product = await querires.getAllProducts();
+    const products = await querires.getAllProducts();
     res.status(200).json({
-      data: product,
+      products
     });
   } catch (e) {
     console.error("Error getting product", e);
@@ -65,7 +65,7 @@ export const createProduct = async (req: Request, res: Response) => {
         error: "Unauthorized",
       });
 
-    const { title, description, imageUrl } = req.params;
+    const { title, description, imageUrl } = req.body;
 
     if (!title || !description || !imageUrl) {
       res.status(400).json({

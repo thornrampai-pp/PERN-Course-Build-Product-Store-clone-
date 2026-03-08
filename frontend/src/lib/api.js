@@ -3,35 +3,34 @@ import api from "./axios";
 // users api
 export const syncUser = async (userData) => {
   const { data } = await api.post("/users/sync", userData);
-  return data;
+  return data.data;
 };
 
 // product api
 
-export const getAllProdut = async () => {
+export const getAllProducts = async () => {
   const { data } = await api.get("/products");
   return data;
 };
 
 
-
-export const getMyProdut = async (id) => {
+export const getMyProduct = async (id) => {
   const { data } = await api.get(`/products/${id}`);
   return data;
 };
 
 
-export const createProdut = async (productData) => {
+export const createProduct = async (productData) => {
   const { data } = await api.post("/products", productData);
   return data;
 };
 
-export const updateProdut = async ({id,...productData}) => {
+export const updateProduct = async ({id,...productData}) => {
   const { data } = await api.put(`/products/${id}`, productData);
   return data;
 };
 
-export const deleteProdut = async (id) => {
+export const deleteProducts = async (id) => {
   const { data } = await api.delete(`/products/${id}`);
   return data;
 };

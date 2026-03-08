@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from "react-router";
 import {
   SignInButton,
@@ -7,21 +6,24 @@ import {
   useAuth,
 } from "@clerk/clerk-react";
 import { ShoppingBagIcon, PlusIcon, UserIcon } from "lucide-react";
-import ThemeSelector from './ThemeSelector';
-
+import ThemeSelector from "./ThemeSelector";
 
 function Navbar() {
-  const {isSignedIn} = useAuth();
+  const { isSignedIn } = useAuth();
+
   return (
     <div className="navbar bg-base-300">
       <div className="max-w-5xl mx-auto w-full px-4 flex justify-between items-center">
-        {/*Logo left side */}
+        {/* LOGO - LEFT SIDE */}
         <div className="flex-1">
-          <Link to={"/"} className="btn btn-ghost gap-2">
+          <Link to="/" className="btn btn-ghost gap-2">
             <ShoppingBagIcon className="size-5 text-primary" />
-            <span className="text-lg font-bold uppercase">Product Store</span>
+            <span className="text-lg font-bold font-mono uppercase tracking-wider">
+              Productify
+            </span>
           </Link>
         </div>
+
         <div className="flex gap-2 items-center">
           <ThemeSelector />
           {isSignedIn ? (
@@ -34,6 +36,7 @@ function Navbar() {
                 <UserIcon className="size-4" />
                 <span className="hidden sm:inline">Profile</span>
               </Link>
+              <UserButton />
             </>
           ) : (
             <>
@@ -50,5 +53,4 @@ function Navbar() {
     </div>
   );
 }
-
-export default Navbar
+export default Navbar;
