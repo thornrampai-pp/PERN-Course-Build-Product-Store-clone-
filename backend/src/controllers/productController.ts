@@ -38,7 +38,7 @@ export const getProductById = async (req: Request, res: Response) => {
 
 export const getMyProduct = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params;
+    const { userId } = getAuth(req);
     if (!userId)
       return res.status(401).json({
         error: "Unauthorized",

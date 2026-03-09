@@ -13,39 +13,39 @@ export const getAllProducts = async () => {
   return data;
 };
 
-
-export const getMyProduct = async (id) => {
+export const getProductById = async (id) => {
   const { data } = await api.get(`/products/${id}`);
-  return data;
+  return data.data;
 };
 
+export const getMyProducts = async () => {
+  const { data } = await api.get("/products/my");
+  return data.data;
+};
 
 export const createProduct = async (productData) => {
   const { data } = await api.post("/products", productData);
   return data;
 };
 
-export const updateProduct = async ({id,...productData}) => {
+export const updateProduct = async ({ id, ...productData }) => {
   const { data } = await api.put(`/products/${id}`, productData);
   return data;
 };
 
-export const deleteProducts = async (id) => {
+export const deleteProduct = async (id) => {
   const { data } = await api.delete(`/products/${id}`);
   return data;
 };
 
-
 // comment
 
-export const createComment = async ({productId,content}) => {
-  const { data } = await api.post(`/comments/${productId}`, content);
+export const createComment = async ({ productId, content }) => {
+  const { data } = await api.post(`/comments/${productId}`, {content});
   return data;
 };
 
-
-
-export const deleteComment = async ({commentId}) => {
+export const deleteComment = async ({ commentId }) => {
   const { data } = await api.delete(`/comments/${commentId}`);
   return data;
 };
